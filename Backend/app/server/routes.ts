@@ -7,5 +7,11 @@ export class Routes {
             .get((req: Request, res: Response) => {
                 res.status(200).send("Hello World!")
             })
+
+        app.route('/post')
+            .post((req: Request, res: Response) => {
+                const { name, age, status } = req.body;
+                res.status(200).send({ name, age, status })
+            })
     }
 }
