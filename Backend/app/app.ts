@@ -1,5 +1,8 @@
 import express from "express";
 import bodyParser from "body-parser";
+import mongoose from "mongoose";
+import cookieParser from 'cookie-parser';
+
 import { Routes } from './server/routes';
 
 class App {
@@ -10,6 +13,7 @@ class App {
         this.app = express();
         this.config();
         this.routePrv.routes(this.app)
+        this.mongoSetup();
     }
 
     private config(): void {
@@ -24,6 +28,13 @@ class App {
         this.app.use(bodyParser.json());
         //support application/x-www-form-urlencoded post data
         this.app.use(bodyParser.urlencoded({ extended: false }));
+        this.app.use(cookieParser());
+    }
+
+    private mongoSetup(): void {
+        mongoose.connect('mongodb://localhost:27017/eloquent_chatelet', { })
+        .then(() => console.log('MongoDB connected…'))
+        .catch(err => console.log(err))
     }
 }
 
