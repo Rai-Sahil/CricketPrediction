@@ -32,7 +32,7 @@ class App {
     }
 
     private mongoSetup(): void {
-        mongoose.connect('mongodb://localhost:27017/eloquent_chatelet', { })
+        mongoose.connect('mongodb://localhost:27017/users', { })
         .then(() => console.log('MongoDB connected…'))
         .catch(err => console.log(err))
     }

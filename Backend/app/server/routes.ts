@@ -2,6 +2,10 @@ import { Request, Response, Application } from "express";
 import { serialize } from 'cookie';
 import jwt from 'jsonwebtoken';
 import verifyToken from './middleware';
+import { UserController } from "../controller/userController";
+import { User } from "../models/user";
+
+const userController: UserController = new UserController();
 
 export class Routes {
     private readonly JWT_SECRET: string = 'secret';
@@ -13,24 +17,7 @@ export class Routes {
             })
 
         app.route('/login')
-            .post((req: Request, res: Response) => {
-                const { email, password } = req.body;
-                
-                if (email === 'a@a.a' && password === '123') {
-                    const token = jwt.sign({ email }, this.JWT_SECRET, { expiresIn: '1h' });
-
-                    res.setHeader('Set-Cookie', serialize('token', token, {
-                        httpOnly: true,
-                        secure: true,
-                        sameSite: 'strict',
-                        maxAge: 3600,
-                        path: '/'
-                    }))
-                    res.status(200).send("Logged in!")
-                } else {
-                    res.status(401).send("Wrong credentials!")
-                }
-            })
+            .post(userController.login)
 
         app.route('/logout')
             .get((req: Request, res: Response) => {
@@ -44,10 +31,7 @@ export class Routes {
                 res.status(200).send("Logged out!")
             })
 
-        app.route('/send-data')
-            .post(verifyToken, (req: Request, res: Response) => {
-                const { question } = req.body;
-                res.status(200).send(`Question: ${question}`)
-            })
+        app.route('/register')
+            .post(userController.register)
     }
 }
