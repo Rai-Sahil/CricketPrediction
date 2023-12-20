@@ -8,7 +8,6 @@ import { User } from "../models/user";
 const userController: UserController = new UserController();
 
 export class Routes {
-    private readonly JWT_SECRET: string = 'secret';
 
     public routes(app: Application): void {
         app.route('/')

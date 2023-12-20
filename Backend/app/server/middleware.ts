@@ -11,8 +11,8 @@ const verifyToken: verification = (req, res, next) => {
     }
 
     try {
-        const decoded = jwt.verify(token, 'secret');
-        // TODO: Add conditional requirements for decoded object
+        const decoded = jwt.verify(token, 'asdjfhlasdkjhfasdlf');
+        console.log(decoded);
         next();
     } catch (error) {
         res.status(401).send("Invalid token");
@@ -23,4 +23,4 @@ const exportObject = {
     verifyToken
 }
 
-export default verifyToken;
+export default exportObject;

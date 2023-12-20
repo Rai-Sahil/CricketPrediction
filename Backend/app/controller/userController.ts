@@ -1,7 +1,11 @@
 import { Request, Response } from "express";
 import User from "../models/user";
+import jwt from 'jsonwebtoken';
 
 export class UserController {
+    
+    private readonly JWT_SECRET: string = 'asdjfhlasdkjhfasdlf';
+
     public async register(req: Request, res: Response): Promise<void> {
         try {
             const { email, password } = req.body;
@@ -30,7 +34,18 @@ export class UserController {
                 return;
             }
 
-            res.status(200).json({ message: 'Logged in', user: user });
+            const token = jwt.sign({ email }, 'asdjfhlasdkjhfasdlf',  {
+                expiresIn: '1h',
+            });
+
+            res.cookie('authToken', token, {
+                httpOnly: true,
+                secure: true,
+                sameSite: 'strict',
+                maxAge: 3600000,
+                path: '/',
+            }).json({ message: 'Login successful', user: user });
+
         } catch (error) {
             res.status(500).json({ message: 'Something went wrong', user: null });
         }

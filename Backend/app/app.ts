@@ -2,6 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cookieParser from 'cookie-parser';
+import sesion from 'express-session';
 
 import { Routes } from './server/routes';
 
@@ -12,7 +13,7 @@ class App {
     constructor() {
         this.app = express();
         this.config();
-        this.routePrv.routes(this.app)
+        this.routePrv.routes(this.app);
         this.mongoSetup();
     }
 
@@ -29,10 +30,12 @@ class App {
         //support application/x-www-form-urlencoded post data
         this.app.use(bodyParser.urlencoded({ extended: false }));
         this.app.use(cookieParser());
+
+        this.app.use(sesion({secret: 'secret', resave: false, saveUninitialized: true, cookie: { secure: true }}));
     }
 
     private mongoSetup(): void {
-        mongoose.connect('mongodb://localhost:27017/users', { })
+        mongoose.connect('mongodb://localhost:27777/users', { })
         .then(() => console.log('MongoDB connected…'))
         .catch(err => console.log(err))
     }
