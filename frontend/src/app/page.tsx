@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import './index.css'
+import Link from 'next/link'
 
 export default function Home() {
   return (
@@ -39,8 +40,8 @@ export default function Home() {
       </div>
 
       <div className="mb-32 text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:text-left flex justify-center items-center">
-        <button id="register" type="button" className="register"> <span>Register</span></button>
-        <button id="login" className="login" type="button">Login</button>
+        <Link href="/register"><button id="register" type="button" className="register"> <span>Register</span></button></Link>
+        <Link href="/login"><button id="login" className="login" type="button">Login</button></Link>
       </div>
     </main>
   )
