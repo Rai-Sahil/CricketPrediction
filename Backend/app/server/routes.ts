@@ -1,11 +1,11 @@
 import { Request, Response, Application } from "express";
 import { serialize } from 'cookie';
-import jwt from 'jsonwebtoken';
 import verifyToken from './middleware';
 import { UserController } from "../controller/userController";
-import { User } from "../models/user";
+import { PaymentController } from "../controller/paymentController";
 
 const userController: UserController = new UserController();
+const userPaymentController: PaymentController = new PaymentController();
 
 export class Routes {
 
@@ -20,7 +20,7 @@ export class Routes {
 
         app.route('/logout')
             .get((req: Request, res: Response) => {
-                res.setHeader('Set-Cookie', serialize('token', '', {
+                res.setHeader('Set-Cookie', serialize('authToken', '', {
                     httpOnly: true,
                     secure: true,
                     sameSite: 'strict',
@@ -32,5 +32,11 @@ export class Routes {
 
         app.route('/register')
             .post(userController.register)
+
+        app.route('/payment')
+            .post(verifyToken, (req: Request, res: Response) => {
+                userPaymentController.createPayment(req, res);
+                userPaymentController.updateRequests(req, res);
+            })
     }
 }

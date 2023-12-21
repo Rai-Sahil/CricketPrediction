@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 type verification = (req: Request, res: Response, next: NextFunction) => void;
 
 const verifyToken: verification = (req, res, next) => {
-    const token = req.cookies.token;
+    const token = req.cookies.authToken;
 
     if (!token) {
         return res.status(401).send("No token provided");
@@ -19,8 +19,4 @@ const verifyToken: verification = (req, res, next) => {
     }
 }
 
-const exportObject = {
-    verifyToken
-}
-
-export default exportObject;
+export default verifyToken;

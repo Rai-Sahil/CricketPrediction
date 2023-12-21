@@ -3,13 +3,15 @@ import mongoose, { Document, Schema } from 'mongoose';
 export interface User extends Document {
     email: string;
     password: string;
-    // Add more fields as needed
+    number_of_requests: number;
+    premiumUser: boolean;
 }
 
 const UserSchema = new Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    // Define other fields if needed
+    number_of_requests: { type: Number, default: 20, required: true },
+    premiumUser: { type: Boolean, default: false, required: true }
 });
 
 export default mongoose.model<User>('User', UserSchema);

@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cookieParser from 'cookie-parser';
 import sesion from 'express-session';
+import cors from 'cors';
 
 import { Routes } from './server/routes';
 
@@ -32,6 +33,7 @@ class App {
         this.app.use(cookieParser());
 
         this.app.use(sesion({secret: 'secret', resave: false, saveUninitialized: true, cookie: { secure: true }}));
+        this.app.use(cors());
     }
 
     private mongoSetup(): void {
