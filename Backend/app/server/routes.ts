@@ -38,5 +38,10 @@ export class Routes {
                 userPaymentController.createPayment(req, res);
                 userPaymentController.updateRequests(req, res);
             })
+
+        app.route('/question')
+            .post(verifyToken, (req: Request, res: Response) => {
+                res.status(200).send("Question submitted!")
+            })
     }
 }
